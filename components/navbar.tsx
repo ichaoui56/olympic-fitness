@@ -56,14 +56,14 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
       <div className={`fixed top-0 left-0 right-0 z-40 flex justify-center mt-0 ${isScrolled ? "mt-2.5" : ""}`}>
         <motion.header
           className={`
-            transition-all duration-300 w-full px-4 py-4
+            transition-all duration-300 px-4 py-4 w-[90%] 
             ${
               isScrolled
                 ? `
                 ${
                   isMobile
                     ? "w-full rounded-none bg-gray-900/80 backdrop-blur-md shadow-md py-2"
-                    : "w-[89%] rounded-b-[40px] bg-gray-900/50 bg- backdrop-blur-md shadow-md py-2 mt-2.5"
+                    : "w-[80%] rounded-b-[40px] bg-gray-900/50 bg- backdrop-blur-md shadow-md py-2 mt-2.5"
                 }
               `
                 : "bg-transparent"
