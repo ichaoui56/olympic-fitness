@@ -63,7 +63,7 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
                 ${
                   isMobile
                     ? "w-full rounded-none bg-gray-900/80 backdrop-blur-md shadow-md py-2"
-                    : "w-[92%] rounded-b-[50px] bg-gray-900/50 bg- backdrop-blur-md shadow-md py-2 mt-2.5"
+                    : "w-[89%] rounded-b-[40px] bg-gray-900/50 bg- backdrop-blur-md shadow-md py-2 mt-2.5"
                 }
               `
                 : "bg-transparent"
