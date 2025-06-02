@@ -6,9 +6,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Animated Cursor",
-  description: "Custom animated cursor that follows mouse movement",
-    generator: 'v0.dev'
+  title: "Olympic Fitness",
+  description: "Olympic Fitness - The Best Fitness Center in Salé",
 }
 
 export default function RootLayout({
