@@ -34,47 +34,80 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100
+      const scrollPosition = window.scrollY
+      const windowHeight = window.innerHeight
+      const offset = windowHeight * 0.3 // 30% of viewport height
 
+      // Define sections in the exact order they appear in the DOM
       const sections = [
         { id: "home", ref: homeRef },
         { id: "about", ref: aboutRef },
         { id: "process", ref: processRef },
         { id: "schedule", ref: scheduleRef },
-        { id: "pricing", ref: pricingRef },
         { id: "bmi", ref: bmiRef },
+        { id: "pricing", ref: pricingRef },
         { id: "trainers", ref: trainersRef },
         { id: "contact", ref: contactRef },
       ]
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
-        if (section.ref.current && section.ref.current.offsetTop <= scrollPosition) {
-          setActiveSection(section.id)
-          break
+      // Find the active section based on scroll position
+      let currentSection = "home"
+
+      for (const section of sections) {
+        if (section.ref.current) {
+          const sectionTop = section.ref.current.offsetTop
+          const sectionHeight = section.ref.current.offsetHeight
+          const sectionBottom = sectionTop + sectionHeight
+
+          // Check if the section is in view (considering the offset)
+          if (scrollPosition + offset >= sectionTop && scrollPosition + offset < sectionBottom) {
+            currentSection = section.id
+            break
+          }
         }
       }
+
+      // Special case for the last section (contact)
+      const lastSection = sections[sections.length - 1]
+      if (lastSection.ref.current) {
+        const lastSectionTop = lastSection.ref.current.offsetTop
+        if (scrollPosition + offset >= lastSectionTop) {
+          currentSection = lastSection.id
+        }
+      }
+
+      setActiveSection(currentSection)
     }
+
+    // Initial call
+    handleScroll()
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [scrollY])
 
   const scrollToSection = (sectionId: string) => {
-    const sectionRefs: Record<string, React.RefObject<HTMLDivElement>> = {
+    const sectionRefs: Record<string, React.RefObject<HTMLDivElement | null>> = {
       home: homeRef,
       about: aboutRef,
       process: processRef,
       schedule: scheduleRef,
-      pricing: pricingRef,
       bmi: bmiRef,
+      pricing: pricingRef,
       trainers: trainersRef,
       contact: contactRef,
     }
 
     const ref = sectionRefs[sectionId]
     if (ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth" })
+      // Calculate offset for fixed navbar
+      const navbarHeight = 80
+      const elementPosition = ref.current.offsetTop - navbarHeight
+
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      })
     }
   }
 
@@ -116,7 +149,7 @@ export default function Home() {
   }
 
   return (
-    <main className="relative bg-black">
+    <main className="relative bg-black overflow-hidden">
       {/* Subtle accent glows */}
       <div className="accent-glow accent-glow-1"></div>
       <div className="accent-glow accent-glow-2"></div>

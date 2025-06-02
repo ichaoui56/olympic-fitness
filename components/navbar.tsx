@@ -40,13 +40,14 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Fixed navLinks to match the exact order and IDs from home component
   const navLinks = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
     { id: "process", label: "Process" },
     { id: "schedule", label: "Schedule" },
-    { id: "pricing", label: "Pricing" },
     { id: "bmi", label: "BMI" },
+    { id: "pricing", label: "Pricing" },
     { id: "trainers", label: "Trainers" },
     { id: "contact", label: "Contact" },
   ]
@@ -63,7 +64,7 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
                 ${
                   isMobile
                     ? "w-full rounded-none bg-gray-900/80 backdrop-blur-md shadow-md py-2"
-                    : "w-[80%] rounded-b-[40px] bg-gray-900/50 bg- backdrop-blur-md shadow-md py-2 mt-2.5"
+                    : "w-[80%] rounded-b-[40px] bg-gray-900/50 backdrop-blur-md shadow-md py-2 mt-2.5"
                 }
               `
                 : "bg-transparent"
@@ -84,6 +85,8 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
+              {/* Debug indicator - remove this in production */}
+
               {navLinks.map((link) => (
                 <button
                   key={link.id}
@@ -106,13 +109,16 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
 
             {/* CTA Button */}
             <div className="hidden md:block">
-              <button className="bg-white hover:bg-[#FF7512] text-gray-900 hover:text-white font-bold py-2 px-6 transition-colors duration-300">
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="bg-white hover:bg-[#FF7512] text-gray-900 hover:text-white font-bold py-2 px-6 transition-colors duration-300"
+              >
                 BECOME A MEMBER
               </button>
             </div>
 
-            {/* Hamburger Menu Button */}
-            <button className="text-white p-2" onClick={() => setIsSidebarOpen(true)}>
+            {/* Hamburger Menu Button - Only show on mobile */}
+            <button className="md:hidden text-white p-2" onClick={() => setIsSidebarOpen(true)}>
               <Menu className="h-6 w-6 text-white" />
             </button>
           </div>
@@ -125,6 +131,8 @@ export default function Navbar({ activeSection, scrollToSection }: NavbarProps) 
         onClose={() => setIsSidebarOpen(false)}
         isMobile={isMobile}
         scrollToSection={scrollToSection}
+        activeSection={activeSection}
+        navLinks={navLinks}
       />
     </>
   )

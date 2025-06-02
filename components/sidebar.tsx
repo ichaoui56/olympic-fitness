@@ -24,9 +24,11 @@ interface SidebarProps {
   onClose: () => void
   isMobile: boolean
   scrollToSection: (section: string) => void
+  activeSection: string
+  navLinks: { id: string; label: string }[]
 }
 
-export default function Sidebar({ isOpen, onClose, isMobile, scrollToSection }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, isMobile, scrollToSection, activeSection, navLinks }: SidebarProps) {
   // Close sidebar when clicking a navigation item on mobile
   const handleNavClick = (section: string) => {
     scrollToSection(section)
@@ -47,16 +49,10 @@ export default function Sidebar({ isOpen, onClose, isMobile, scrollToSection }: 
     }
   }, [isOpen])
 
-  const navLinks = [
-    { id: "home", label: "Home", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "about", label: "About", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "process", label: "Process", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "schedule", label: "Schedule", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "pricing", label: "Pricing", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "bmi", label: "BMI", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "trainers", label: "Trainers", icon: <ChevronRight className="h-4 w-4" /> },
-    { id: "contact", label: "Contact", icon: <ChevronRight className="h-4 w-4" /> },
-  ]
+  const navLinksWithIcons = navLinks.map(link => ({
+    ...link,
+    icon: <ChevronRight className="h-4 w-4" />
+  }))
 
   const galleryImages = [
     { id: 1, query: "modern gym equipment" },
@@ -145,7 +141,7 @@ export default function Sidebar({ isOpen, onClose, isMobile, scrollToSection }: 
                       <span className="absolute bottom-0 left-0 h-1 w-12 bg-[#FF7512]"></span>
                     </h3>
                     <nav className="flex flex-col space-y-1">
-                      {navLinks.map((link) => (
+                      {navLinksWithIcons.map((link) => (
                         <motion.button
                           key={link.id}
                           onClick={() => handleNavClick(link.id)}
